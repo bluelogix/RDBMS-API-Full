@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const knex = require('knex');
+const knex = require('knex'); 
 
 const knexConfig = require('../knexfile.js')
 const db = knex(knexConfig.development) 
@@ -47,6 +47,25 @@ router.post('/', (req, res) => {
     })
   })
 
-
+  //DELETE
+  router.delete('/:id', (req, res) => {
+    db('cohorts')
+    .where({ id: req.params.id })
+    .del()
+    .then(count => {
+      if(count > 0 ) {
+        res.status(200).json({ message: 'deleted correctly' })
+      } else {
+        res.status(404).json({ message: 'name cannot be found'})
+      }
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+    
+  });
+  
+  
+  
 
 module.exports = router;
