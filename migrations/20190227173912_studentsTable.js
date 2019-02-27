@@ -5,12 +5,12 @@ exports.up = function(knex, Promise) {
     function(tbl){
         //id column
         tbl.increments();
-        
+
         //name column
         tbl
         .string('name', 128)
         .notNullable()
-
+        
         tbl
         .integer('cohort_id')//adds a column to the users table referencing the roles table ids
         .unsigned()
