@@ -17,7 +17,36 @@ const db = knex(knexConfig.development)
     })
   });
   
-  
+    //GET BY ID
+  router.get('/:id', (req, res) => {
+    db('cohorts')
+    .where({ id: req.params.id })
+    .then(cohort => {
+      res.status(200).json(cohort)
+    })
+    .catch(err => {
+      res.status(500).json(err)
+    })
+  })
+
+  //POST 
+router.post('/', (req, res) => {
+    db('cohorts')
+    .insert(req.body)
+    .then(cohortId => {
+      const [id] = cohortId
+      db('cohorts')
+      .where({ id })
+      .first()
+      .then(cohort => {
+        res.status(201).json(cohort)
+      })
+    })
+    .catch(err => {
+      res.status(500).json({err: 'Error adding new cohort name' })
+    })
+  })
+
 
 
 module.exports = router;
