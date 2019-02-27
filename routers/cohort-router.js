@@ -65,7 +65,27 @@ router.post('/', (req, res) => {
     
   });
   
-  
+  //PUT
+  router.put('/:id', (req, res) => {
+    db('cohorts')
+    .where({ id: req.params.id })
+    .update(req.body)
+    .then(count => { 
+      if(count) {
+        db('cohorts')
+        .where({ id: req.params.id })
+        .first()
+        .then(cohort => {
+          res.status(200).json(cohort)
+        })
+      } else {
+        res.status(404).json({ message: 'Cohort id not found'})
+      }
+    })
+    .catch(error => {
+      res.status(500).json(error)
+    })
+   });
   
 
 module.exports = router;
