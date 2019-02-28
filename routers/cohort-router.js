@@ -29,13 +29,14 @@ const db = knex(knexConfig.development)
     })
   })
 
-  //GET STUDENTS
+  //GET ID with STUDENTS
       router.get('/:id/students', (req, res) => {
-        db('cohorts')
-        .where({ id: req.params.id })
-        .then(cohort => {
-           if (cohort) {
-            res.status(200).json(cohort);
+        const id = req.params.id
+        db('students')
+        .where({ 'cohort_id': id })
+        .then(student => {
+           if (student.length > 0) {
+            res.status(200).json(student);
           } else {
             res.status(404).json({ message: 'The id cannot be found' });
           }
